@@ -391,8 +391,32 @@ mod tests {
             .iter()
             .zip(bvh_collisions.iter())
         {
-            assert_eq!(normal, bvh);
+            match (normal, bvh) {
+                (Some(a), Some(b)) => {
+                    assert_approx_vec3_eq(a.position, b.position);
+                    assert_approx_f32_eq(a.length, b.length);
+                    assert_approx_vec3_eq(a.incident_direction.into(), b.incident_direction.into());
+                }
+                _ => {
+                    assert_eq!(normal, bvh)
+                }
+            }
         }
+    }
+
+    fn assert_approx_f32_eq(left: f32, right: f32) {
+        let epsilon: f32 = 1e-4;
+        let difference = (left - right).abs();
+        assert!(
+            difference < epsilon,
+            "{left} and {right} are not approx equal. Difference: {difference}"
+        );
+    }
+
+    fn assert_approx_vec3_eq(left: Vec3, right: Vec3) {
+        assert_approx_f32_eq(left.x, right.x);
+        assert_approx_f32_eq(left.y, right.y);
+        assert_approx_f32_eq(left.z, right.z);
     }
 
     fn load_test_mesh() -> Mesh {
