@@ -87,7 +87,7 @@ impl Tri {
         ab.cross(ac).length() / 2.0
     }
 
-    pub fn iter(&self) -> impl Iterator {
+    pub fn iter(&self) -> impl Iterator<Item = &Vec3> {
         self.vertices.iter()
     }
 
