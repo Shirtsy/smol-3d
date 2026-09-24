@@ -14,6 +14,9 @@ use crate::{
     traits::{Bounded, Intersects},
 };
 
+// src/geometry/mesh.rs
+const SUZANNE_STL: &[u8] = include_bytes!("../../models/suzanne.stl");
+
 #[derive(Error, Debug)]
 pub enum MeshError {
     #[error("failed to read file: {0}")]
@@ -43,6 +46,10 @@ pub struct Mesh {
 impl Mesh {
     pub fn from_stl_file(stl_path: &Path, recalculate_normals: bool) -> Result<Self, MeshError> {
         let bytes = fs::read(stl_path)?;
+        Self::from_stl_bytes(&bytes, recalculate_normals)
+    }
+
+    pub fn from_stl_bytes(bytes: &[u8], recalculate_normals: bool) -> Result<Self, MeshError> {
         let tri_count = u32::from_le_bytes(bytes[stl::STL_TRIS_COUNT].try_into()?) as usize;
         let expected = stl::STL_TRIS_START + stl::STL_TRI_SIZE * tri_count;
 
@@ -68,6 +75,11 @@ impl Mesh {
         }
 
         Ok(mesh)
+    }
+
+    pub fn suzanne() -> Self {
+        Self::from_stl_bytes(SUZANNE_STL, true)
+            .expect("embedded Suzanne STL should always be valid")
     }
 
     pub fn calculate_aabb(&self) -> Aabb {
