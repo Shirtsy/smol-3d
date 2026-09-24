@@ -36,7 +36,7 @@ impl Tri {
         Self { normal, ..*self }
     }
 
-    pub fn from_stl_bytes(bytes: &[u8; STL_TRI_SIZE]) -> Self {
+    pub(crate) fn from_stl_bytes(bytes: &[u8; STL_TRI_SIZE]) -> Self {
         let normal = stl::vector_from_bytes(
             bytes[0..12]
                 .try_into()
