@@ -54,21 +54,20 @@ impl Mesh {
                 actual: bytes.len(),
             })?;
 
-        let mut tris: Vec<Tri> = triangle_bytes
+        let tris: Vec<Tri> = triangle_bytes
             .as_chunks::<{ stl::STL_TRI_SIZE }>()
             .0
             .iter()
             .map(|x| Ok(Tri::from_stl_bytes(x)))
             .collect::<Result<Vec<Tri>, MeshError>>()?;
 
+        let mut mesh = Mesh { tris };
+
         if recalculate_normals {
-            tris = tris
-                .iter()
-                .map(|x| x.recalculate_normal())
-                .collect();
+            mesh.recalculate_normals();
         }
 
-        Ok(Mesh { tris })
+        Ok(mesh)
     }
 
     pub fn calculate_aabb(&self) -> Aabb {
