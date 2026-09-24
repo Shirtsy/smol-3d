@@ -1,6 +1,6 @@
 use std::{fs, path::Path};
 
-use glam::Quat;
+use glam::{Quat, Vec3};
 use thiserror::Error;
 
 use crate::{
@@ -90,6 +90,26 @@ impl Mesh {
 
     pub fn calculate_bvh(&self) -> Bvh {
         Bvh::from_tris(self.tris.as_slice())
+    }
+
+    pub fn verts(&self) -> Vec<Vec3> {
+        let mut out = Vec::with_capacity(self.tris.len() * 3);
+        out.extend(
+            self.tris
+                .iter()
+                .flat_map(|tri| tri.ordered_verts()),
+        );
+        out
+    }
+
+    pub fn normals(&self) -> Vec<Vec3> {
+        let mut out = Vec::with_capacity(self.tris.len());
+        out.extend(
+            self.tris
+                .iter()
+                .map(|tri| tri.normal.vec3()),
+        );
+        out
     }
 }
 

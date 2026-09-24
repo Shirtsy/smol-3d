@@ -90,6 +90,13 @@ impl Tri {
     pub fn iter(&self) -> impl Iterator {
         self.vertices.iter()
     }
+
+    pub fn ordered_verts(&self) -> [Vec3; 3] {
+        match self.winding {
+            WindingOrder::Clockwise => [self[0], self[1], self[2]],
+            WindingOrder::CounterClockwise => [self[2], self[1], self[0]],
+        }
+    }
 }
 
 impl Index<usize> for Tri {
