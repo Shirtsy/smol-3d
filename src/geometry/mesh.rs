@@ -104,12 +104,13 @@ impl Mesh {
         out
     }
 
+    /// Emits a normal per vert
     pub fn normals(&self) -> Vec<Vec3> {
-        let mut out = Vec::with_capacity(self.tris.len());
+        let mut out = Vec::with_capacity(self.tris.len() * 3);
         out.extend(
             self.tris
                 .iter()
-                .map(|tri| tri.normal.vec3()),
+                .flat_map(|tri| [tri.normal.vec3(); 3]),
         );
         out
     }
