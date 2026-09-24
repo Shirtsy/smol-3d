@@ -55,8 +55,10 @@ impl Mesh {
             })?;
 
         let mut tris: Vec<Tri> = triangle_bytes
-            .chunks_exact(stl::STL_TRI_SIZE)
-            .map(|x| Ok(Tri::from_stl_bytes(x.try_into()?)))
+            .as_chunks::<{ stl::STL_TRI_SIZE }>()
+            .0
+            .iter()
+            .map(|x| Ok(Tri::from_stl_bytes(x)))
             .collect::<Result<Vec<Tri>, MeshError>>()?;
 
         if recalculate_normals {
