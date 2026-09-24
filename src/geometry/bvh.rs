@@ -320,15 +320,13 @@ fn surface_area_heuristic(tris: &[Tri], bounds: Aabb) -> f32 {
 
 #[cfg(test)]
 mod tests {
-    use std::{path::PathBuf, time::Instant};
+    use std::time::Instant;
 
     use glam::Vec3;
 
     use crate::geometry::{mesh::Mesh, unit_vec::UnitVec3};
 
     use super::*;
-
-    const TEST_STL_PATH: &str = "models/suzanne.stl";
 
     #[test]
     fn build_bvh() {
@@ -420,7 +418,7 @@ mod tests {
     }
 
     fn load_test_mesh() -> Mesh {
-        Mesh::from_stl_file(&PathBuf::from(TEST_STL_PATH), true).expect("Could not read STL file")
+        Mesh::suzanne()
     }
 
     fn generate_test_rays(radius: f32, num_theta: usize, num_phi: usize) -> Vec<Ray> {
