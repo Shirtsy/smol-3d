@@ -93,8 +93,8 @@ impl Tri {
 
     pub fn ordered_verts(&self) -> [Vec3; 3] {
         match self.winding {
-            WindingOrder::Clockwise => [self[0], self[1], self[2]],
-            WindingOrder::CounterClockwise => [self[2], self[1], self[0]],
+            WindingOrder::CounterClockwise => [self[0], self[1], self[2]],
+            WindingOrder::Clockwise => [self[2], self[1], self[0]],
         }
     }
 }
