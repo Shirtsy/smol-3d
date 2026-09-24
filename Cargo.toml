@@ -4,7 +4,7 @@ version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-glam = "0.32.0"
+glam = "0.33.9"
 slab = "0.4.12"
 thiserror = "2.0.18"
 
