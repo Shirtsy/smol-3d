@@ -91,6 +91,7 @@ impl Tri {
         self.vertices.iter()
     }
 
+    /// Returns standard ccw vert order
     pub fn ordered_verts(&self) -> [Vec3; 3] {
         match self.winding {
             WindingOrder::CounterClockwise => [self[0], self[1], self[2]],
