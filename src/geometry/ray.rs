@@ -28,7 +28,7 @@ impl Ray {
         }
     }
 
-    pub fn new_wih_length(origin: Vec3, direction: UnitVec3, extra_length: f32) -> Self {
+    pub fn new_with_length(origin: Vec3, direction: UnitVec3, extra_length: f32) -> Self {
         Self {
             extra_length,
             ..Self::new(origin, direction)
